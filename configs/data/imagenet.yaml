@@ -1,0 +1,6 @@
+_target_: src.data.imagenet_datamodule.ImageNetDataModule
+data_dir: ${paths.data_dir}/tiny-imagenet-200
+batch_size: 128 # Needs to be divisible by the number of devices (e.g., if in a distributed setup)
+train_val_test_split: [95000, 5000, 10000]
+num_workers: 2
+pin_memory: True
