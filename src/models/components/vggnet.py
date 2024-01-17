@@ -76,6 +76,19 @@ class VGG19(nn.Module):
             nn.Dropout(p=0.5),
             nn.Linear(4096, num_classes),
         )
+        self.init_param()  # initialize parameters
+
+    def init_param(self):
+        for m in self.modules():
+            if isinstance(m, nn.Conv2d):  # init conv
+                nn.init.kaiming_normal_(m.weight)  # He init (for ReLU)
+                nn.init.zeros_(m.bias)
+            elif isinstance(m, nn.BatchNorm2d):  # init BN
+                nn.init.constant_(m.weight, 1)
+                nn.init.constant_(m.bias, 0)
+            elif isinstance(m, nn.Linear):  # lnit linear
+                nn.init.kaiming_normal_(m.weight)  # He init (for ReLU)
+                nn.init.zeros_(m.bias)
 
     def forward(self, x: torch.Tensor) -> torch.Tensor:
         """Perform a single forward pass through the network.
